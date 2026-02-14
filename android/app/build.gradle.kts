@@ -5,8 +5,8 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    # id("com.google.gms.google-services")
+    # id("com.google.firebase.crashlytics")
 }
 
 val localPropertiesFile = rootProject.file("local.properties")
@@ -76,6 +76,9 @@ android {
                 signingConfig = signingConfigs.getByName("debug")
                 applicationIdSuffix = ".dev"
             }
+            firebaseCrashlytics {
+                    mappingFileUploadEnabled = false
+            }
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
@@ -103,12 +106,15 @@ dependencies {
     implementation(libs.smali.dexlib2) {
         exclude(group = "com.google.guava", module = "guava")
     }
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.crashlytics.ndk)
-    implementation(libs.firebase.analytics)
+    #implementation(platform(libs.firebase.bom))
+    # implementation(libs.firebase.crashlytics.ndk)
+    # implementation(libs.firebase.analytics)
 }
 afterEvaluate {
-    tasks.matching { it.name == "processReleaseGoogleServices" }.configureEach {
+    tasks.matching {
+        it.name == "processReleaseGoogleServices" ||
+        it.name.startsWith("uploadCrashlyticsMappingFile")
+    }.configureEach {
         enabled = false
     }
 }
