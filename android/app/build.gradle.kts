@@ -107,3 +107,8 @@ dependencies {
     implementation(libs.firebase.crashlytics.ndk)
     implementation(libs.firebase.analytics)
 }
+afterEvaluate {
+    tasks.matching { it.name == "processReleaseGoogleServices" }.configureEach {
+        enabled = false
+    }
+}
