@@ -76,9 +76,6 @@ android {
                 signingConfig = signingConfigs.getByName("debug")
                 applicationIdSuffix = ".dev"
             }
-            firebaseCrashlytics {
-                    mappingFileUploadEnabled = false
-            }
 
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
